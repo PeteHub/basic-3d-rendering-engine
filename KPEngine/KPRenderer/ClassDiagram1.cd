@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="KPSkinManager">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAABAAAQgAQAAAEAAgCAAIAAAQAAAgAAAA=</HashCode>
+      <FileName>KPRenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KPVertexCacheManager">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EBAgAgAAAAAAAAAACABAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>KPRenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KPRenderDevice">
+    <Position X="0.5" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>KAAAAIBA5CEDE6IACACgSoAAgBAYIQAggAAKAFRECkE=</HashCode>
+      <FileName>KPRenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KPRenderer">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAAAAAAAgAAAAIAAAAAAAAAAAAAAAAoAAAAQAFAAAAA=</HashCode>
+      <FileName>KPRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Typedef Name="LPKPRENDERDEVICE" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KPRenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="CREATERENDERDEVICE" Collapsed="true">
+    <Position X="3.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KPRenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="RELEASERENDERDEVICE" Collapsed="true">
+    <Position X="5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KPRenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPKPRENDERER" Collapsed="true">
+    <Position X="0.5" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KPRenderer.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

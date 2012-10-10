@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\KPEngine\KPEngine\KPRenderer;C:\KPEngine\KPEngine\KPD3D;C:\KPEngine\KPEngine\KP3D"
+				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\Microsoft DirectX SDK (March 2009)\Samples\C++\DXUT\Core&quot;;C:\KPEngine\KPEngine\KPRenderer;C:\KPEngine\KPEngine\KPD3D;C:\KPEngine\KPEngine\KP3D"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -176,11 +176,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\main.cpp"
+				RelativePath=".\kpmodel.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\model.cpp"
+				RelativePath=".\main.cpp"
 				>
 			</File>
 		</Filter>
@@ -190,11 +190,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\kpmodel.h"
+				>
+			</File>
+			<File
 				RelativePath=".\main.h"
 				>
 			</File>
 			<File
-				RelativePath=".\model.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 		</Filter>
@@ -203,7 +207,15 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\TesterProject.rc"
+				>
+			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

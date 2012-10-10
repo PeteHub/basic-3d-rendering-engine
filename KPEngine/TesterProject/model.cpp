@@ -120,7 +120,7 @@ void KPModel::ReadFile(void)
 	UINT     nNumFaces=0, nNumTris=0;
 	float    fPower=0;
 	char     Line[80];
-	char     Texture[80];
+	char     Texture[MAX_PATH];
 	TRI     *pTris=NULL;
 
 

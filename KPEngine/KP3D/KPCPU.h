@@ -4,7 +4,7 @@
  *	KPEngine Source code 
  *	Kovacs Peter - July 2009
  *
- *  File: KP.h
+ *  File: KPCPU.h
  *  Description: KPEngine CPU reckognition and SIMD support
  *
  *****************************************************************
@@ -13,41 +13,46 @@
 #ifndef KP_CPU_H
 #define KP_CPU_H
 
-// SIMD Instruction Flags ////
-#define CPU_FEATURE_MMX		0x0001	// MMX 
-#define CPU_FEATURE_SSE		0x0002	// Streaming SIMD Extension
-#define CPU_FEATURE_SSE2	0x0004  // Streaming SIMD Extension 2
-#define CPU_FEATURE_SSE3	0x0008  // Streaming SIMD Extension 3
-#define CPU_FEATURE_SSSE3	0x0010  // Supplemental Streaming SIMD Extension 3
-#define CPU_FEATURE_SSE41	0x0020  // Streaming SIMD Extension 4.1
-#define CPU_FEATURE_SSE42	0x0040  // Streaming SIMD Extension 4.2
-#define CPU_FEATURE_3DNOW	0x0080  // 3DNow!
-#define CPU_FEATURE_3DNOWEX 0x0100	// AMD extensions to 3DNow!
-#define CPU_FEATURE_MMXEX	0x0200  // AMD extensions to MMX
+// SIMD Instruction Flags
+#define CPU_FEATURE_MMX		0x0001	//!< MMX flag
+#define CPU_FEATURE_SSE		0x0002	//!< Streaming SIMD Extension flag
+#define CPU_FEATURE_SSE2	0x0004  //!< Streaming SIMD Extension 2 flag
+#define CPU_FEATURE_SSE3	0x0008  //!< Streaming SIMD Extension 3 flag
+#define CPU_FEATURE_SSSE3	0x0010  //!< Supplemental Streaming SIMD Extension 3 flag
+#define CPU_FEATURE_SSE41	0x0020  //!< Streaming SIMD Extension 4.1 flag
+#define CPU_FEATURE_SSE42	0x0040  //!< Streaming SIMD Extension 4.2 flag
+#define CPU_FEATURE_3DNOW	0x0080  //!< 3DNow! flag
+#define CPU_FEATURE_3DNOWEX 0x0100	//!< AMD extensions to 3DNow! flag
+#define CPU_FEATURE_MMXEX	0x0200  //!< AMD extensions to MMX flag
 
-// CPU Vendor & Model Name String Length ////
-#define MAX_VNAME_LEN		13		// 3x4=12 bytes +1 for '/0'
+// Length of the CPU vendor name
+#define MAX_VNAME_LEN		13
 #define MAX_MNAME_LEN		64
 
 typedef unsigned long DWORD;
-// PROCESSOR_INFORMATION STRUCTURE ////
+
+//! Structure storing information about the CPU
 typedef struct PROCESSOR_INFORMATION
 {
-	char vendorName[MAX_VNAME_LEN];		// Vendor name, 'GenuineIntel','AuthenticAMD', etc..
-	char modelName[MAX_MNAME_LEN];		// Model name, e.g. 'Intel Pentium-Pro'
+	char vendorName[MAX_VNAME_LEN];		//!< Vendor name, e.g. 'GenuineIntel','AuthenticAMD', etc..
+	char modelName[MAX_MNAME_LEN];		//!< Model name, e.g. 'Intel Pentium-Pro'
 
-	int Family;							// Processor family, 6 = Pentium-Pro architecture
-	int Model;							// Processor model, 1 = Pentium-Pro for family = 6
-	int Stepping;						// Processor revision number
+	int Family;							//!< Processor family, 6 = Pentium-Pro architecture
+	int Model;							//!< Processor model, 1 = Pentium-Pro for family = 6
+	int Stepping;						//!< Processor revision number
 	
-	DWORD Feature;						// DWORD bitfield of processor features
-	DWORD OS_Support;					// DWORD bitfield of supported OS features
-	DWORD Checks;						// DWORD bitfield mask of all SIMD feature flags that were tested.
-										// Good for checking whether the CPU was tested against a feature
+	DWORD Feature;						//!< DWORD bitfield of the SIMD features supported by the CPU
+	DWORD OS_Support;					//!< DWORD bitfield of the SIMP features supported by the Operating System
+	DWORD Checks;						//!< DWORD bitfield mask of all the SIMD features that were tested.
 
 } CPUINFO;
 
-// GetCPUInfo Function ////
+//! Retrieves the SIMD features supported by the CPU
+/*!
+	\param [out] info pointer to a CPUINFO structure the function can fill with the results
+	\return 1 if successful
+	\return 0 upon error
+*/
 int  GetCPUInfo(CPUINFO *info);
 
 // CPUID SIMD Feature Flags Values in the EDX Register ////

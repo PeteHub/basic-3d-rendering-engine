@@ -1,0 +1,72 @@
+[ KPD3D ]: initializing... 
+[ KPD3D ]: Direct3D Device initialization successful! 
+[ KPD3D ]: 
+[ KPD3D ]: ADAPTERINFO:
+[ KPD3D ]:    adapter features hardware TnL
+[ KPD3D ]:    (pure device possible)
+[ KPD3D ]:    max. texture stages: 8
+[ KPD3D ]:    max. textures for single pass: 8
+[ KPD3D ]:    max. texture width: 16384
+[ KPD3D ]:    max. texture height: 16384
+[ KPD3D ]:    Vertex Shader Version 2.0 or better
+[ KPD3D ]:    Pixel Shader Version 2.0 or better
+[ KPD3D ]: 
+[ KPD3D ]: DISPLAYINFO:
+[ KPD3D ]:    Resolution: 1920x1080
+[ KPD3D ]:    Refreshrate: 60
+[ KPD3D ]:    Pixelformat: D3DFMT_X8R8G8B8
+[ KPD3D ]:    Depth/Stencil: D3DFMT_D24S8
+[ KPD3D ]: 
+[ KPD3D ]: 
+[ KPD3D ]: CPUINFO:
+[ KPD3D ]: 	Vendor Name:	GenuineIntel
+[ KPD3D ]: 	Model Name:	INTEL Core i7
+[ KPD3D ]: 	Family:		6
+[ KPD3D ]: 	Model:		10
+[ KPD3D ]: 	Stepping:	7
+[ KPD3D ]: 
+[ KPD3D ]: 	CPU SIMD SUPPORT:
+[ KPD3D ]: 		CPU_FEATURE_MMX:	Yes
+[ KPD3D ]: 		CPU_FEATURE_SSE:	Yes
+[ KPD3D ]: 		CPU_FEATURE_SSE2:	Yes
+[ KPD3D ]: 		CPU_FEATURE_SSE3:	Yes
+[ KPD3D ]: 		CPU_FEATURE_SSSE3:	Yes
+[ KPD3D ]: 		CPU_FEATURE_SSE41:	Yes
+[ KPD3D ]: 		CPU_FEATURE_SSE42:	Yes
+[ KPD3D ]: 		CPU_FEATURE_3DNOW:	No
+[ KPD3D ]: 		CPU_FEATURE_3DNOWEX:	No
+[ KPD3D ]: 		CPU_FEATURE_MMXEX:	No
+[ KPD3D ]: 
+[ KPD3D ]: Using SIMD.
+[ KPD3DSkinManager ]: successfully initialized.
+[ KPD3DVertexCacheManager ]: successfully initialized.
+[ KPD3D ]: Final Initialization is successfully completed. The engine is ready to rock ! :)
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: CreateTexture: File not found: ""
+[ KPD3DSkinManager ]: AddTexture: Unable to create texture: ""
+[ KPD3DSkinManager ]: successfully uninitialized
+[ KPD3DVertexCacheManager ]: successfully released.
+[ KPD3D ]: successfully uninitialized.

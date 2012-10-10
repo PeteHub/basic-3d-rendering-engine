@@ -694,7 +694,7 @@ void KPD3D::Transform2Dto3D(const POINT &point, KPVector *vcOrigin, KPVector *vc
 	DWORD		dwWidth, dwHeight;
 
 	// If the engine uses TWOD 2d mode, use the full screen dimension and the 2d view matrix
-	if ( m_Mode = EMD_TWOD )
+	if ( m_Mode == EMD_TWOD )
 	{
 		dwWidth		= m_dwWidth;
 		dwHeight	= m_dwHeight;
@@ -711,7 +711,6 @@ void KPD3D::Transform2Dto3D(const POINT &point, KPVector *vcOrigin, KPVector *vc
 			pProj	= &m_mProjP[m_nStage];
 		else
 			pProj	= &m_mProjO[m_nStage];
-	}
 
 	// Now we have to bring the coordinates from the viewport/screen [0.0f, 1.0f] dimensions
 	// back to [-1.0f, 1.0f] dimensions, practically have to do the inverse of Transform3Dto2D.
@@ -734,6 +733,7 @@ void KPD3D::Transform2Dto3D(const POINT &point, KPVector *vcOrigin, KPVector *vc
 
 	// Ensure that it is a unit vector
 	vcOrigin->Normalize();
+	}
 
 } // ! Transform2Dto3D
 
@@ -749,6 +749,7 @@ void KPD3D::SetAmbientLight(float fR, float fG, float fB)
 	m_pDevice->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_COLORVALUE(fR, fG, fB, 1.0f));
 
 } // ! SetAmbientLight
+
 
 // CreateMyFont ////
 //////////////////
@@ -792,7 +793,27 @@ HRESULT KPD3D::CreateMyFont(const char *chType, int nWeight, bool bItalic, bool 
 
 
 	// Expand the font list size
-	m_pFont = (LPD3DXFONT*)realloc(m_pFont, sizeof(LPD3DXFONT)*(m_numFonts+1));
+	void* tmp = realloc(m_pFont, sizeof(LPD3DXFONT)*(m_numFonts+1));
+	if ( tmp != NULL )
+	{
+		m_pFont = (LPD3DXFONT*)tmp;
+		tmp = NULL;
+	}
+	else
+	{
+		free(m_pFont);
+		free(tmp);
+		Log("CreateMyFont: Unable to (re)allocate memory for new fonts");
+		return KP_OUTOFMEMORY;
+	}
+
+	// This was very silly from me, huge risk of memory leaks all over the code where realloc was used :S:S
+	//m_pFont = (LPD3DXFONT*)realloc(m_pFont, sizeof(LPD3DXFONT)*(m_numFonts+1));
+	//if ( ! m_pFont )
+	//{
+	//	Log("CreateMyFont: Unable to (re)allocate memory for new fonts");
+	//	return KP_OUTOFMEMORY;
+	//}
 
 	// Convert our GDI font into D3DX font
 	hr = D3DXCreateFont(m_pDevice, nHeight, 0, nWeight, 0, bItalic, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
@@ -910,6 +931,8 @@ void KPD3D::LogDeviceCaps(D3DCAPS9 *pCaps) {
 	D3DSURFACE_DESC desc;
 	D3DFORMAT Format = D3DFMT_UNKNOWN;
 	D3DDISPLAYMODE mode = {0,0,0,D3DFMT_UNKNOWN};
+
+	ZeroMemory(&desc, sizeof(D3DSURFACE_DESC));
 
 	if (FAILED(m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &mode)))
 		Log("Error: IDirect3D::GetAdapterDisplayMode failed");

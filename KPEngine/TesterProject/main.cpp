@@ -14,10 +14,11 @@
 
 #define WIN32_MEAN_AND_LEAN
 
+#include "resource.h"
 #include "KPRenderer.h"
 #include "KP.h"
 #include "main.h"
-#include "model.h"
+#include "kpmodel.h"
 
 // Link our static library awesomeness :)
 #pragma comment(lib, "KPRenderer.lib")
@@ -26,20 +27,29 @@
 // Windows variables
 HWND		g_hWnd			= NULL;						// Handle to our window
 HINSTANCE	g_hInst			= NULL;						// Handle to differenciate classes of different DLLs
-TCHAR		g_szAppClass[]	= TEXT("KPEngine Window");	// Name of the window
+TCHAR		g_szAppClass[]	= TEXT("KPEngine Ablak");	// Name of the window
 
 // Application variables
-BOOL g_bIsActive	= FALSE;	// Is out window active?
+BOOL g_bIsActive	= FALSE;	// Is our window active?
 bool g_bDone		= false;	// Stay inside the main loop?
-bool g_setWire		= false;	// Use wireframe mode in 3d view?
+UINT g_setShade		= 3;		// Switch shading modes in 3d view
 UINT g_nFontID		= 0;		// Id of our font type
 UINT g_nRotate		= 0;		// Amount of rotation
 FILE *pLog			= NULL;		// Application log file
+KPCOLOR g_clrWire;
 
-// KP Objects
+// Some variables to make the wireframe colors cycle
+float g_signR = 1.0f;
+float g_signG = 1.0f;
+float g_signB = 1.0f;
+
+// KPEngine Objects
 LPKPRENDERER		g_pRenderer	= NULL;
 LPKPRENDERDEVICE	g_pDevice	= NULL;
 KPModel				*g_pModel	= NULL;
+
+// Path name for file
+char fileName[MAX_PATH] = "";
 
 
 
@@ -48,11 +58,13 @@ KPModel				*g_pModel	= NULL;
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	WNDCLASSEX	wndclass;
-	HRESULT		hr;
+	HMENU		hMenu;
 	HWND		hWnd;
 	MSG			msg;
 
 	fopen_s(&pLog, "log_demo.txt", "w");
+	if ( !pLog )
+		return 0;
 
 	// Initialize our window class
 	wndclass.hIconSm			= LoadIcon(NULL,IDI_APPLICATION);
@@ -71,9 +83,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if ( RegisterClassEx( &wndclass ) == 0 )
 		return 0;
 
-	if ( !( hWnd = CreateWindowEx(NULL, g_szAppClass, "KPEngine Demo v1.0 - Kovacs Peter", WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX | WS_VISIBLE,
+	// Load the menubar from the resource file
+	if ( ( hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU1)) ) == NULL )
+	{
+		fprintf_s(pLog,"error: LoadMenu() failed: %i \n", GetLastError() );
+		return 0;
+	}
+
+
+
+	if ( !( hWnd = CreateWindowEx(NULL, g_szAppClass, "KPEngine Szakdolgozat Bemutato - Kovacs Peter - 2009", WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX | WS_VISIBLE,
 								  GetSystemMetrics(SM_CXSCREEN)/2 - 400,  GetSystemMetrics(SM_CYSCREEN)/2 - 300,
-								  800, 600, NULL, NULL, hInstance, NULL) ) )
+								  800, 600, NULL, hMenu, hInstance, NULL) ) )
 	{
 		fprintf_s(pLog,"error: CreateWindowEx() failed: %i \n", GetLastError() );
 		return 0;
@@ -85,46 +106,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Initialize SIMD if possible
 	IsSSESupported();
 
+	// Open file dialog for the first time
+	OpenFileDialog(fileName, g_hWnd, "Wavefront OBJ (*.obj)\0*.obj\0Minden Fájl (*.*)\0*.*\0");
+
 	// Start the Engine !!!
 	///////////////////////
 
-	if ( FAILED( hr = ProgramStartup("Direct3D") ) )
-	{
-		fprintf_s(pLog,"Error starting the application. DirectX is possibly not up-to date! Check http://www.microsoft.com/downloads/details.aspx?FamilyID=2DA43D38-DB71-4C1B-BC6A-9B6652CD92A3 \n");
-		g_bDone = true;
-	}
-	else if ( hr == KP_CANCELLED )
-	{
-		fprintf_s(pLog,"error: ProgramStartup() cancelled \n");
-		g_bDone = true;
-	}
+	StartRenderingEngine();
 
-	// Otherwise, all is good, we can proceed with initializing
-	else
-	{
-		// Set Global Device Settings
-
-		g_pDevice->SetMode(EMD_PERSPECTIVE, 0);
-		g_pDevice->SetClearColor(0.2f, 0.2f, 0.2f);
-
-		// Create the camera vectors (Right, Up, Direction, Position)
-		KPVector	vCamRight(1,0,0),
-					vCamUp(0,1,0),
-					vCamDirection(0,0,1),
-					vCamPosition(0,0,0);
-
-		KPVector	vText(5, 8, 32);
-
-		// Set up the camera
-		g_pDevice->SetView3D(vCamRight, vCamUp, vCamDirection, vCamPosition);
-
-		// Load our model
-		//g_pModel = new KPModel("model\\vehicle.mdl", g_pDevice, pLog);
-		g_pModel = new KPModel("model\\vehicle.mdl", g_pDevice, pLog);
-
-		g_pDevice->UseTextures(true);
-
-	}
+	if ( fileName[0] != '\0' )
+		g_pModel = new KPModel(fileName, g_pDevice, pLog);
 
 	// Main Loop of Doom! :)
 	while ( ! g_bDone )
@@ -141,10 +132,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if ( g_bIsActive )
 		{
-			if ( g_pDevice->IsRunning() )
+			// Limit fps ~ 60, PC dependant
+			Sleep(60);
+
+			if ( g_pDevice->IsRunning() && g_pModel )
 			{
-				// Limit fps ~ 30
-				Sleep(34);
 
 				Tick(0);
 
@@ -167,6 +159,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	// Clean up the stuff
+	if ( pLog )
+	{
+		fclose(pLog);
+		pLog = NULL;
+	}
+
 	ProgramCleanup();
 	UnregisterClass(g_szAppClass, hInstance);
 
@@ -191,13 +189,33 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		if ( wParam == VK_ESCAPE )
 		{
-			g_bDone = true;
 			PostMessage(hWnd, WM_CLOSE, 0, 0);
-			return 0;
 		}
 		else if ( wParam == VK_SPACE )
 		{
-			g_setWire = g_setWire?false:true;
+			g_setShade++;
+			g_setShade%=4;
+		}
+		break;
+
+		// Events from the main window, for example from the menubar
+	case WM_COMMAND:
+		switch(LOWORD(wParam))
+		{
+
+		// Open file dialog
+		case IDM_OPEN:
+			if ( OpenFileDialog(fileName, g_hWnd, "Wavefront OBJ (*.obj)\0*.obj\0All Files (*.*)\0*.*\0") )
+			{
+				delete g_pModel;
+				g_pModel = new KPModel(fileName, g_pDevice, pLog);
+			}
+			break;
+
+		// Exit the application
+		case IDM_EXIT:
+			PostMessage(hWnd, WM_CLOSE, 0, 0);
+			break;
 		}
 		break;
 
@@ -217,6 +235,49 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 } // ! MsgProc
 
+void StartRenderingEngine()
+{
+	HRESULT		hr;
+
+	if ( FAILED( hr = ProgramStartup("Direct3D") ) )
+	{
+		fprintf_s(pLog,"Error starting the application. DirectX is possibly not up-to date! Check http://www.microsoft.com/downloads/details.aspx?FamilyID=2DA43D38-DB71-4C1B-BC6A-9B6652CD92A3 \n");
+		g_bDone = true;
+	}
+	else if ( (int)hr == KP_CANCELLED )
+	{
+		fprintf_s(pLog,"error: ProgramStartup() cancelled \n");
+		g_bDone = true;
+	}
+
+	// Otherwise, all is good, we can proceed with initializing
+	else
+	{
+		// Set Global Device Settings
+		g_pDevice->SetMode(EMD_PERSPECTIVE, 0);
+		g_pDevice->SetClearColor(0.1f, 0.1f, 0.1f);
+		g_pDevice->SetAmbientLight(0.8f,0.8f,0.8f);
+
+		// Create the camera vectors (Right, Up, Direction, Position)
+		KPVector	vCamRight(1,0,0),
+					vCamUp(0,1,0),
+					vCamDirection(0,0,1),
+					vCamPosition(0,0,0);
+
+		KPVector	vText(5, 8, 32);
+
+		g_clrWire.fR = 0.4f;
+		g_clrWire.fG = 0.4f;
+		g_clrWire.fB = 0.4f;
+
+		// Set up the camera
+		g_pDevice->SetView3D(vCamRight, vCamUp, vCamDirection, vCamPosition);
+
+		// Enable model textures
+		g_pDevice->UseTextures(true);
+
+	}
+}
 
 // ProgramStartup Function
 //////////////////////////
@@ -283,7 +344,6 @@ HRESULT ProgramStartup(char * chAPI)
 							16,		// 16bit zbuffer
 							8,		// 0 bit stencil buffer
 							false); // logfile
-
 	if ( FAILED(hr) )
 	{
       fprintf(pLog, "Failed to initialize render device.\n");
@@ -311,16 +371,25 @@ HRESULT ProgramStartup(char * chAPI)
 // Free all allocated resources
 HRESULT ProgramCleanup(void)
 {
+
+	if ( g_pModel )
+	{
+		delete g_pModel;
+		g_pModel = NULL;
+	}
+
+	if ( g_pDevice->GetNumRenderWindows() > 0 )
+	{
+		for(int i=0;i<g_pDevice->GetNumRenderWindows(); ++i)
+		{
+			DestroyWindow(g_pDevice->GetRenderWindowHandle(i));
+		}
+	}
+
 	if ( g_pRenderer )
 	{
 		delete g_pRenderer;
 		g_pRenderer = NULL;
-	}
-
-	if ( pLog )
-	{
-		fclose(pLog);
-		pLog = NULL;
 	}
 
 	return S_OK;
@@ -334,20 +403,30 @@ HRESULT ProgramCleanup(void)
 HRESULT Tick(UINT nWID)
 {
 	KPMatrix mWorld;
+	KPMatrix mWorld2;
+	KPVector vLightPosition;
 	mWorld.Identity();
+	mWorld2.Identity();
+	char strShadeMode[32] = "";
+
 
 	g_pDevice->SetMode(EMD_PERSPECTIVE, 0);
-	g_pDevice->SetClearColor(0.2f, 0.2f, 0.2f);
 
-	// Set up the wireframe color (orange)
-	KPCOLOR clrWire;
-	clrWire.fR = 1.0f;
-	clrWire.fG = 0.6f;
-	clrWire.fB = 0.0f;
+	// Set up the wireframe color
+		if ( g_clrWire.fR > 1.0f || g_clrWire.fR < 0.3f )
+			g_signR *= -1.0f;
+		if ( g_clrWire.fG > 1.0f || g_clrWire.fG < 0.3f )
+			g_signG *= -1.0f;
+		if ( g_clrWire.fB > 1.0f || g_clrWire.fB < 0.3f )
+			g_signB *= -1.0f;
 
-	// Enable wireframe mode
-	g_pDevice->SetShadeMode(RS_SHADE_TRIWIRE, 1.0f, &clrWire);
-	g_pDevice->SetBackfaceCulling(RS_CULL_NONE);
+		
+		g_clrWire.fR += g_signR*0.002f;
+		g_clrWire.fG += g_signG*0.004f;
+		g_clrWire.fB += g_signB*0.008f;
+
+	// Default solid shading mode
+	g_pDevice->SetShadeMode(RS_SHADE_SOLID, 1.0f, &g_clrWire);
 
 	// Activate the needed child window
 	switch ( nWID )
@@ -363,11 +442,28 @@ HRESULT Tick(UINT nWID)
 		break;
 	case 0:
 	default:
-		if ( !g_setWire )
+		
+		switch ( g_setShade )
 		{
+		case 0:
+			g_pDevice->SetShadeMode(RS_SHADE_POINTS, 0.05f, &g_clrWire);
+			strcpy_s(strShadeMode,sizeof(char)*32,"Pontháló mód (Vertexek)");
+			break;
+		case 1:
+			g_pDevice->SetShadeMode(RS_SHADE_LINES, 0, &g_clrWire);
+			strcpy_s(strShadeMode,sizeof(char)*32,"Vonalháló mód (Élek)");
+			break;
+		case 2:
+			g_pDevice->SetShadeMode(RS_SHADE_TRIWIRE, 0, &g_clrWire);
 			g_pDevice->SetBackfaceCulling(RS_CULL_NONE);
-			g_pDevice->SetShadeMode(RS_SHADE_SOLID, 0, NULL);
+			strcpy_s(strShadeMode,sizeof(char)*32,"Háromszögháló mód (Elemek)");
+			break;
+		case 3:
+		default:
+			strcpy_s(strShadeMode,sizeof(char)*32,"Kitöltött mód");
+			g_pDevice->SetShadeMode(RS_SHADE_SOLID, 0, &g_clrWire);
 		}
+
 		g_pDevice->UseWindow(0);
 
 	}
@@ -382,29 +478,48 @@ HRESULT Tick(UINT nWID)
 	switch ( nWID )
 	{
 	case 1:
-		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "Top View");
-		mWorld.RotateX( DToRad(-90) );
-		mWorld.Translate(0.0f, 0.0f, 10.0f);
+		g_pDevice->SetShadeMode(RS_SHADE_POINTS, 0.05f, &g_clrWire);
+		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "Vertexek");
+
+		//mWorld.RotateX( DToRad(-90) );
+		mWorld.RotateY( DToRad(-25) );
+		mWorld2.RotateX( DToRad(-15) );
+		mWorld = mWorld* mWorld2;
+
+		mWorld.Translate(0.0f, 0.0f, 8.0f);
 		g_pDevice->SetWorldTransform(&mWorld);
-		g_pModel->Render();
+		RenderModel();
 		break;
 	case 2:
-		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "Left View");
-		mWorld.Translate(0.0f, -1.0f, 10.0f);
+		g_pDevice->SetShadeMode(RS_SHADE_LINES, 0.05f, &g_clrWire);
+		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "Élek");
+
+		mWorld.RotateY( DToRad(-25) );
+		mWorld2.RotateX( DToRad(-15) );
+		mWorld = mWorld* mWorld2;
+
+		mWorld.Translate(0.0f, 0.0f, 8.0f);
 		g_pDevice->SetWorldTransform(&mWorld);
-		g_pModel->Render();
+		RenderModel();
 
 		break;
 	case 3:
-		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "Front View");
-		mWorld.RotateY( DToRad(-90) );
-		mWorld.Translate(0.0f, -1.0f, 10.0f);
+		g_pDevice->SetShadeMode(RS_SHADE_TRIWIRE, 0.05f, &g_clrWire);
+		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "Elemek");
+
+		//mWorld.RotateY( DToRad(-90) );
+		mWorld.RotateY( DToRad(-25) );
+		mWorld2.RotateX( DToRad(-15) );
+		mWorld = mWorld* mWorld2;
+
+		mWorld.Translate(0.0f, 0.0f, 8.0f);
 		g_pDevice->SetWorldTransform(&mWorld);
-		g_pModel->Render();
+		RenderModel();
 		break;
 	case 0:
 	default:
-		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "3D View (Press SPACE to change Filling Mode)");
+		g_pDevice->DrawTxt(g_nFontID, 4, 4, 255, 150, 150, 150, "3D Nézet - %s\nSPACE: kitöltési mód váltása\nESC: Kilépés\n\nVertexek: %d\nIndexek: %d\nHáromszögek: %d\nAnyagok: %d",
+						strShadeMode, g_pModel->GetNumVertices(), g_pModel->GetNumIndices(), g_pModel->GetNumIndices()/3, g_pModel->GetNumMaterials());
 
 		if ( (g_nRotate%360) == 0 )
 			g_nRotate = 1;
@@ -412,9 +527,13 @@ HRESULT Tick(UINT nWID)
 			++g_nRotate;
 
 		mWorld.RotateY( DToRad(g_nRotate) );
-		mWorld.Translate(0.0f, -2.0f, 10.0f);
+		mWorld2.RotateX( DToRad(-15) );
+		mWorld = mWorld* mWorld2;
+
+		mWorld.Translate(0.0f, 0.0f, 8.0f);
 		g_pDevice->SetWorldTransform(&mWorld);
-		g_pModel->Render();
+		RenderModel();
+
 	}
 
 	// End the rendering sequence, flip the backbuffer into the frontbuffer
@@ -425,11 +544,56 @@ HRESULT Tick(UINT nWID)
 
 } // ! Tick
 
+bool OpenFileDialog(char strfileName[], HWND hOwner, char* filter)
+{
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn,sizeof(ofn));
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner	= hOwner;
+	ofn.lpstrFilter	= filter;
+	ofn.lpstrFile	= strfileName;
+	ofn.nMaxFile	= MAX_PATH;
+	ofn.Flags		= OFN_EXPLORER | OFN_FILEMUSTEXIST;
+	ofn.lpstrDefExt	= "obj";
+	ofn.lpstrTitle = "OBJ Modell fájl megnyitása...";
+
+	if ( GetOpenFileName(&ofn) )
+		return true;
+	else
+	{
+		switch( CommDlgExtendedError() )
+		{
+		case CDERR_FINDRESFAILURE:
+		case CDERR_LOADRESFAILURE:
+		case CDERR_LOADSTRFAILURE:
+		case CDERR_LOCKRESFAILURE:
+		case FNERR_INVALIDFILENAME:
+			MessageBox(NULL, "A kiválasztott fájlt az alkalmazás nem tudja megnyitni!", "KPEngine - hiba", MB_OK | MB_ICONERROR);
+			break;
+		case CDERR_INITIALIZATION:
+		case CDERR_MEMALLOCFAILURE:
+		case CDERR_MEMLOCKFAILURE:
+		case FNERR_BUFFERTOOSMALL:
+			MessageBox(NULL, "Nincs elég memória a muvelet végrehajtásához!", "KPEngine - hiba", MB_OK | MB_ICONERROR);
+			break;
+		default:
+			break;
+		}
+		return false;
+	}
+}
+
 float DToRad(int degree)
 {
 	// 1 degree = PI/180 radian
 	return (float)( 0.01745329251994329576923690768489 * degree );
 }
 
+void RenderModel(void)
+{
+	if ( g_pModel )
+		g_pModel->Render();
+}
 
 

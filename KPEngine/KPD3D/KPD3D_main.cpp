@@ -17,6 +17,7 @@ inline DWORD FToDW( float f )
 {
 	return *((DWORD*)&f);
 }
+
 void KPD3D::SetWorldTransform(const KPMatrix *mWorld)
 {
 	// Render all the vertices from the cache

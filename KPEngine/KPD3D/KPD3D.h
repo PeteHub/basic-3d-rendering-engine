@@ -220,6 +220,11 @@ class KPD3D : public KPRenderDevice
 		LPD3DXFONT				*m_pFont;			// Font object
 		UINT					m_numFonts;			// Number of fonts
 
+		// Lights
+		////////////
+		D3DLIGHT9				m_pointLight;		// Point Light
+		D3DLIGHT9				m_directLight;		// Directional light
+
 		////
 		//  ----------------------- END OF ATTRIBUTE LIST ----------------------
 		////
@@ -251,6 +256,8 @@ class KPD3D : public KPRenderDevice
 		HRESULT			Init(HWND, const HWND*, int, int, int, bool);
 		void			Release(void);
 		bool			IsWindowed(void);
+		int				GetNumRenderWindows(void);
+		HWND			GetRenderWindowHandle(int handle);
 
 		BOOL CALLBACK	DlgProc(HWND, UINT, WPARAM, LPARAM);			// For the user settings dialog box
 

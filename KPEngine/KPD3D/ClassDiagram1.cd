@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="KPD3DEnum" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAJgAIQAABgAISiACAEQCAQAABAAIAgCAACCQKyAA=</HashCode>
+      <FileName>KPD3D.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KPD3D">
+    <Position X="10.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>KEIQQoAANCIDk84ECBSBQoAI0BgYISIFgCwCABRGAME=</HashCode>
+      <FileName>KPD3D.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KPD3DVertexCache" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZAAIEAgAIAAghIBAAAAAAAAFgAgAIAICAAAA4ICAA=</HashCode>
+      <FileName>KPD3D_vcache.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KPD3DVertexCacheManager" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EDBAAAAEgAAAJAEACABAAgBEAAgEAAIAABAAAAAACAE=</HashCode>
+      <FileName>KPD3D_vcache.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KPD3DSkinManager" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAEAAAIAAAABAAAAAAAAEAIgAAAoAEAQAAAQICAA=</HashCode>
+      <FileName>KPD3DSkinManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="KPCOLOR_RGBA" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAgAAAAAgAAAAAAAAAAAAAAAAAAAAQAAAAgAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPMATERIAL" Collapsed="true">
+    <Position X="8.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAAAAAAgAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPTEXTURE" Collapsed="true">
+    <Position X="6.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CIAAgAAAAAAAAAAAAAAAAAQAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPSKIN" Collapsed="true">
+    <Position X="3" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAASAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPVIEWPORT" Collapsed="true">
+    <Position X="8.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="VERTEX" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAIAAAAAAAAAAAAAAAAAAAAAAAAABgAQAAAQA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="LVERTEX" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAABggQAAAQA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPCOMBOINFO" Collapsed="true">
+    <Position X="4.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAACAAIAAAAAAAABAIAAAAAAAAAABAKA=</HashCode>
+      <FileName>KPD3D.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPDEVICEINFO" Collapsed="true">
+    <Position X="6.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAIAAQCEAAAAAAAAA=</HashCode>
+      <FileName>KPD3D.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPADAPTERINFO" Collapsed="true">
+    <Position X="3" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAIAIAABAAAAAAABA=</HashCode>
+      <FileName>KPD3D.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KPSTATICBUFFER" Collapsed="true">
+    <Position X="4.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAACAAgAAAEAAAAAIAAAAAAAAAABAAAAAAAAACAEA=</HashCode>
+      <FileName>KPD3D_vcache.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="KPCOLOR" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="KPENGINEMODE" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="KPENGINEMODE_ENUM" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAACAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="KPVERTEXID" Collapsed="true">
+    <Position X="4.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="KPRENDERSTATE" Collapsed="true">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIAQAAAAAgABAAAAAAAAAAAAAAAAAAEAEAFACAAAgA=</HashCode>
+      <FileName>KP.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

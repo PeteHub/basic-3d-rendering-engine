@@ -501,7 +501,7 @@ int GetCPUInfo(CPUINFO *info)
 	if (info->Family == 15)
 		info->Family |= (dwSignature >> 16) & 0xF;	// Extended Family ( >> by 16, to have 4 extra 0000 bits at the beginning )
 
-	info->vendorName[MAX_VNAME_LEN] = '\0';			// Add the string ending '\0'
+	info->vendorName[MAX_VNAME_LEN-1] = '\0';		// Add the string ending '\0'
 
 	MapCpuName(info->Family, info->Model, info->vendorName, info->modelName);
 

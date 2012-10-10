@@ -190,11 +190,27 @@ HRESULT KPD3DSkinManager::AddSkin(const KPCOLOR *pAmbient, const KPCOLOR *pDiffu
 		size = ( m_numSkins + 25 ) * sizeof(KPSKIN);
 
 		// Reallocate the list with the increased size.
+		void* tmp = realloc(m_pSkins, size);
+		if ( tmp != NULL)
+		{
+			m_pSkins = (KPSKIN*)tmp;
+			tmp = NULL;
+		}
+		else
+		{
+			free(m_pSkins);
+			free(tmp);
+			Log("AddSkin: Unable to reallocate SKIN object"); 
+			return KP_OUTOFMEMORY;
+		}
+
+		/*
 		if ( ( m_pSkins = (KPSKIN*)realloc(m_pSkins, size) ) == NULL )
 		{
 			Log("AddSkin: Unable to reallocate SKIN object"); 
 			return KP_OUTOFMEMORY;
 		}
+		*/
 	}
 
 	// Create the material of the Skin
@@ -240,11 +256,27 @@ HRESULT KPD3DSkinManager::AddSkin(const KPCOLOR *pAmbient, const KPCOLOR *pDiffu
 			size = ( m_numMaterials + 50 ) * sizeof(KPMATERIAL);
 			
 			// Reallocate the material list with the new size
+			void* tmp = realloc(m_pMaterials, size);
+			if ( tmp != NULL )
+			{
+				m_pMaterials = (KPMATERIAL*)tmp;
+				tmp = NULL;
+			}
+			else
+			{
+				free(m_pMaterials);
+				free(tmp);
+				Log("AddSkin: Unable to reallocate MATERIAL Object");
+				return KP_OUTOFMEMORY;
+			}
+
+			/*
 			if ( ( m_pMaterials = (KPMATERIAL*)realloc(m_pMaterials, size) ) == NULL )
 			{
 				Log("AddSkin: Unable to reallocate MATERIAL Object");
 				return KP_OUTOFMEMORY;
 			}
+			*/
 		}
 
 		// Copy the material data into the list
@@ -311,11 +343,26 @@ HRESULT KPD3DSkinManager::AddTexture(UINT nSkinID, const char *chName, bool bAlp
 			int size = ( m_numTextures + 25 ) * sizeof(KPTEXTURE);
 
 			// Reallocate the index with the new size
+			void* tmp = realloc(m_pTextures, size);
+			if ( tmp != NULL)
+			{
+				m_pTextures = (KPTEXTURE*)tmp;
+				tmp = NULL;
+			}
+			else
+			{
+				free(m_pTextures);
+				free(tmp);
+				Log("AddTexture: unable to reallocate Texture object");
+				return KP_OUTOFMEMORY;
+			}
+			/*
 			if ( ( m_pTextures = (KPTEXTURE*)realloc(m_pTextures, size) ) == NULL )
 			{
 				Log("AddTexture: unable to reallocate Texture object");
 				return KP_OUTOFMEMORY;
 			}
+			*/
 
 		}
 

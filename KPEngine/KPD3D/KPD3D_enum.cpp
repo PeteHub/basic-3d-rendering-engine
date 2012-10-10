@@ -683,7 +683,7 @@ HRESULT KPD3DEnum::EnumCombos(KPDEVICEINFO &xDev)
 
 				DWORD msQuality;
 
-				for(UINT nMS = g_nMS-1 ; nMS >= 0; --nMS) {
+				for(int nMS = g_nMS-1 ; nMS >= 0; --nMS) {
 					if ( SUCCEEDED( m_pD3D->CheckDeviceMultiSampleType(pCombo->nAdapter,
 																	   pCombo->d3dDevType,
 																	   pCombo->fmtBackBuffer,

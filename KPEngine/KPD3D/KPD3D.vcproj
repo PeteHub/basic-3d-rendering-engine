@@ -246,6 +246,14 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
+		<File
+			RelativePath=".\ClassDiagram11.cd"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -331,7 +331,7 @@ BOOL CALLBACK KPD3D::DlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 			// Fullscreen radiobox selection changed
 			case IDC_FULL:
-				// Same as Windowed Mode change
+			// Same as Windowed Mode change
 			// Windowed Mode radiobox selection changed
 			case IDC_WND:
 				{
@@ -358,6 +358,8 @@ HRESULT KPD3D::Go(void)
 	KPCOMBOINFO	xCombo;
 	HRESULT		hr;
 	HWND		hwnd;
+
+	ZeroMemory(&xCombo, sizeof(KPCOMBOINFO));
 
 	// Create the main Direct3D object here,
 	// This is the first D3D object a graphical application creates
@@ -576,16 +578,21 @@ HRESULT KPD3D::UseWindow(UINT nHwnd)
 	// We only use 1 backbuffer / swapchain, so the ID is 0
 	// The BB type is MONO, LEFT or RIGHT (for stereo)
 	// Direct3D 9 does not support stereo view though, so stick with MONO
-	if ( FAILED( m_pChain[nHwnd]->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBack) ) )
+	if ( nHwnd <= 4 && FAILED( m_pChain[nHwnd]->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pBack) ) )
 	{
 		Log("error: Failed to change active swap chain \n");
 		return KP_FAIL;
 	}
 
 	// Activate the new render target for the device
+	if ( ! pBack )
+	{
+		Log("error: Unable to change backbuffer\n");
+		return KP_FAIL;
+	}
 	m_pDevice->SetRenderTarget(0, pBack);
-
 	pBack->Release();
+
 	m_nActivehWnd = nHwnd;
 
 	return KP_OK;
@@ -597,6 +604,20 @@ HRESULT KPD3D::UseWindow(UINT nHwnd)
 bool KPD3D::IsWindowed(void)
 {
 	return m_bWindowed;
+}
+
+// Number of available rendering windows ////
+/////////////////////////////////////////////
+int KPD3D::GetNumRenderWindows(void)
+{
+	return m_nNumhWnd;
+}
+
+// Handle for an available rendering window ////
+////////////////////////////////////////////////
+HWND KPD3D::GetRenderWindowHandle(int handle)
+{
+		return m_hWnd[handle];
 }
 
 // Render Functions

@@ -599,6 +599,22 @@ HRESULT KPD3DVertexCacheManager::CreateStaticBuffer(KPVERTEXID VertexID, UINT nS
 	if ( (m_numSB % 25 ) == 0 )
 	{
 		int nSize = (m_numSB+25) * sizeof(KPSTATICBUFFER);
+		
+		void* tmp = realloc(m_pSB, nSize);
+		if ( tmp != NULL )
+		{
+			m_pSB = (KPSTATICBUFFER*)tmp;
+			tmp = NULL;
+		}
+		else
+		{
+			free(m_pSB);
+			free(tmp);
+			Log("CreateStaticBuffer: Unable to extend static buffer: OUT_OF_MEMORY. SB Nr: %d, New size: %d", m_numSB, nSize);
+			return KP_OUTOFMEMORY;
+		}
+
+		/*
 		m_pSB = (KPSTATICBUFFER*)realloc(m_pSB, nSize);
 
 		if ( ! m_pSB )
@@ -606,6 +622,7 @@ HRESULT KPD3DVertexCacheManager::CreateStaticBuffer(KPVERTEXID VertexID, UINT nS
 			Log("CreateStaticBuffer: Unable to extend static buffer: OUT_OF_MEMORY. SB Nr: %d, New size: %d", m_numSB, nSize);
 			return KP_OUTOFMEMORY;
 		}
+		*/
 	}
 
 	// Set Static Buffer properties

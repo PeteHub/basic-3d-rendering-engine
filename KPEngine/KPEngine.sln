@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TesterProject", "TesterProj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KP3D", "KP3D\KP3D.vcproj", "{2580E25C-0B4F-4505-9C51-E49EC78481D2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelLoaderTest", "ModelLoaderTest\ModelLoaderTest.vcproj", "{D085D985-5679-4DBF-8F2F-F0F577374DFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -35,6 +37,10 @@ Global
 		{2580E25C-0B4F-4505-9C51-E49EC78481D2}.Debug|Win32.Build.0 = Debug|Win32
 		{2580E25C-0B4F-4505-9C51-E49EC78481D2}.Release|Win32.ActiveCfg = Release|Win32
 		{2580E25C-0B4F-4505-9C51-E49EC78481D2}.Release|Win32.Build.0 = Release|Win32
+		{D085D985-5679-4DBF-8F2F-F0F577374DFD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D085D985-5679-4DBF-8F2F-F0F577374DFD}.Debug|Win32.Build.0 = Debug|Win32
+		{D085D985-5679-4DBF-8F2F-F0F577374DFD}.Release|Win32.ActiveCfg = Release|Win32
+		{D085D985-5679-4DBF-8F2F-F0F577374DFD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
