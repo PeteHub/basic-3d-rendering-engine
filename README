@@ -1,0 +1,13 @@
+Ez a project szakdolgozat céljaból készült, de késobb más témát választottam. Ettol eltekintve, a project megírása során elengedhetetlen tapasztalatokhoz jutottam hozzá.
+
+Ez egy moduláris, valós ideju háromdimenziós rendering alkalmazásprogramozási interfész tervét és ezen interfész egyik moduljának DirectX segítségével történo implementációját mutatja be.
+
+Az API moduláris, mert az interfész aktuális implementációja független és az egyes implementációk szabadon kicserélhetoek az API módosítása nélkül.
+Ennek oka az API két rétegre való felosztása:
+
+- Interfész definíció
+- Interfész implementációi különálló modulokként
+
+A feladat összetettségére való tekintettel és az elore nem látható problémák legoptimálisabb megoldásának érdekében a software iteratív software tervezési módszer segítségével készült.
+
+A Project célja általánosságban a grafikus API-k felépítésének és muködésének megismerése, összetettebb programok tervezésében valamint háromdimenziós grafikus programozásban való tapasztalat szerzése, amely a késobbiekben a Játékfejlesztoi Iparban való elhelyezkedésben lehet segítségre.
